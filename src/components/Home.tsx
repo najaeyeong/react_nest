@@ -10,6 +10,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Button } from "@mui/material";
 import dayjs from "dayjs";
 import Checkbox from "@mui/material/Checkbox";
+import axios from "axios";
 export function Home() {
   const [출근시간, set출근시간] = useState();
   const [퇴근시간, set퇴근시간] = useState();
@@ -167,6 +168,8 @@ export function Home() {
     }
 
     console.log(formdata);
+    // await axios
+    //   .post("/cats/test3", formdata)
     await apiServer
       .post("cats/test3", formdata)
       .then((res) => {
