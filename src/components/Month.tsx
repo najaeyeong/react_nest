@@ -225,6 +225,8 @@ export function Month() {
 
   const [month, setMonth] = useState<number>(1);
   const [year, setYear] = useState<number>(2023);
+  const [일일소정근로시간기준, set일일소정근로시간기준] = useState<number>(8);
+  const [주소정근로시간기준, set주소정근로시간기준] = useState<number>(40);
 
   const [근무타입, set근무타입] = useState<
     {
@@ -1121,10 +1123,21 @@ export function Month() {
   };
 
   const postDate = async () => {
-    const formdata = { 근태기록, 근무타입, 연차기록, 외출기록, year, month };
+    const formdata = {
+      근태기록,
+      근무타입,
+      연차기록,
+      외출기록,
+      year,
+      month,
+      일일소정근로시간기준,
+      주소정근로시간기준,
+    };
     console.log(formdata);
-    await apiServer
-      .post("/worktime/MonthWorkTimeList", formdata)
+    // await apiServer
+    //   .post("/worktime/MonthWorkTimeList", formdata)
+    await axios
+      .post(`http://52.79.56.54:8080/worktime/MonthWorkTimeList`, formdata)
       .then((res) => {
         console.log(res.data);
         let list: any[] = [];
@@ -1137,6 +1150,7 @@ export function Month() {
         console.log(list);
       })
       .catch((err) => {
+        console.log(err);
         alert(`error:${err}`);
       });
   };
@@ -1151,7 +1165,7 @@ export function Month() {
 
   return (
     <>
-      <Box display={"flex"}>
+      <Box sx={{ m: 3 }} display={"flex"}>
         <Box>월:</Box>
         <Box>
           <Select
@@ -1310,7 +1324,7 @@ export function Month() {
         </Box>
       </Box>
 
-      <Box display={"flex"}>
+      <Box sx={{ m: 3 }} display={"flex"}>
         <Box>화:</Box>
         <Box>
           <Select
@@ -1469,7 +1483,7 @@ export function Month() {
         </Box>
       </Box>
 
-      <Box display={"flex"}>
+      <Box sx={{ m: 3 }} display={"flex"}>
         <Box>수:</Box>
         <Box>
           <Select
@@ -1628,7 +1642,7 @@ export function Month() {
         </Box>
       </Box>
 
-      <Box display={"flex"}>
+      <Box sx={{ m: 3 }} display={"flex"}>
         <Box>목:</Box>
         <Box>
           <Select
@@ -1787,7 +1801,7 @@ export function Month() {
         </Box>
       </Box>
 
-      <Box display={"flex"}>
+      <Box sx={{ m: 3 }} display={"flex"}>
         <Box>금:</Box>
         <Box>
           <Select
@@ -1946,7 +1960,7 @@ export function Month() {
         </Box>
       </Box>
 
-      <Box display={"flex"}>
+      <Box sx={{ m: 3 }} display={"flex"}>
         <Box>토:</Box>
         <Box>
           <Select
@@ -2105,7 +2119,7 @@ export function Month() {
         </Box>
       </Box>
 
-      <Box display={"flex"}>
+      <Box sx={{ m: 3 }} display={"flex"}>
         <Box>일:</Box>
         <Box>
           <Select
@@ -2264,7 +2278,7 @@ export function Month() {
         </Box>
       </Box>
 
-      <Box>
+      <Box sx={{ m: 3 }} display={"flex"}>
         <Box>
           년도:
           <TextField
@@ -2291,7 +2305,34 @@ export function Month() {
           기본타입적용
         </Button>
       </Box>
-
+      <Box sx={{ ml: 20, mt: 20 }} display={"flex"}>
+        <Box display={"flex"}>
+          <Box sx={{ p: 1 }} fontSize={30}>
+            일일소정근로시간기준:
+          </Box>
+          <TextField
+            sx={{ width: 100 }}
+            inputProps={{ style: { fontSize: 30, fontWeight: 1000 } }}
+            value={일일소정근로시간기준}
+            onChange={(e) => {
+              set일일소정근로시간기준(Number(e.target.value));
+            }}
+          ></TextField>
+        </Box>
+        <Box display={"flex"}>
+          <Box sx={{ ml: 4, p: 1 }} fontSize={30}>
+            주소정근로시간기준:
+          </Box>
+          <TextField
+            sx={{ width: 100 }}
+            inputProps={{ style: { fontSize: 30, fontWeight: 1000 } }}
+            value={주소정근로시간기준}
+            onChange={(e) => {
+              set주소정근로시간기준(Number(e.target.value));
+            }}
+          ></TextField>
+        </Box>
+      </Box>
       <Box display={"flex"}>
         <Box>{chart}</Box>
         <Button
